@@ -1,0 +1,3 @@
+[submodule "modules/mini_ahrs_driver"]
+	path = modules/mini_ahrs_driver
+	url = git@github.com:dartmouthrobotics/mini_ahrs_driver.git
