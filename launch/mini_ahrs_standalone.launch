@@ -6,7 +6,7 @@
   <node pkg="nodelet" type="nodelet" name="mini_ahrs_ros" output="screen" args="load mini_ahrs_ros/MiniAHRSNodelet mini_ahrs_nodelet_manager" respawn="false">
     <param name="serial_port_path" type="string" value="/dev/ttyUSB0"/>
     <param name="baudrate" type="int" value="115200"/>
-    <param name="KA" type="double" value="1.0"/>
-    <param name="KG" type="double" value="1.0"/>
+    <param name="KA" type="double" value="500.0"/>
+    <param name="KG" type="double" value="10.0"/>
   </node>
 </launch>

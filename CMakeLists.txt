@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
     std_msgs
     tf2
     nodelet
+    tf2_ros
 )
 
 catkin_package(
