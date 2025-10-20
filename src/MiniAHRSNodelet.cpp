@@ -5,7 +5,8 @@
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 #include <geometry_msgs/Quaternion.h>
-
+#include <chrono>
+#include <time.h>
 
 namespace mini_ahrs_ros {
 
@@ -16,6 +17,7 @@ void MiniAHRSNodelet::IMUDataCallback(const mini_ahrs_driver::AHRSOrientationDat
     }
 
     auto stamp = ros::Time::now();
+
     double degree_to_radian = M_PI / 180.0;
     double g_to_m_ss = 9.80665;
     double nano_tesla_to_tesla = 1.0 / 1.0e9;
@@ -102,7 +104,7 @@ void MiniAHRSNodelet::onInit()
     private_node_handle.getParam("KA", KA_);
     private_node_handle.getParam("KG", KG_);
 
-    bool verbose = false;
+    bool verbose = true;
     private_node_handle.param<std::string>("frame_id", frame_id_, "MiniAHRS");
     private_node_handle.param<bool>("verbose", verbose, false);
     private_node_handle.param<std::string>("parent_frame_id", parent_frame_id_, "world");
@@ -117,6 +119,7 @@ void MiniAHRSNodelet::onInit()
 
     ROS_INFO_STREAM("Initializing MiniAHRS driver at serial port " << serial_port_path_ << " with baudrate " << baudrate_);
     try {
+	ROS_INFO_STREAM("Initializing the driver with verbose: "<< verbose);
         driver_ptr_ = std::unique_ptr<mini_ahrs_driver::MiniAHRSDriver>(
             new mini_ahrs_driver::MiniAHRSDriver(serial_port_path_, baudrate_, KA_, KG_, verbose)
         ); 
