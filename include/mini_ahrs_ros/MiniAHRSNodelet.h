@@ -32,6 +32,10 @@ private:
 
     bool connected_;
 
+    ros::Time time_initial;
+    double time_diff;
+    bool time_initialized;
+
     ros::Publisher imu_data_publisher_;
     ros::Publisher temperature_publisher_;
     ros::Publisher magnetic_field_publisher_;

@@ -15,8 +15,20 @@ void MiniAHRSNodelet::IMUDataCallback(const mini_ahrs_driver::AHRSOrientationDat
     if (!connected_) {
         return;
     }
+    if (data.time < 0) {
+        return;
+    }
 
-    auto stamp = ros::Time::now();
+    if (!time_initialized) {
+        time_initial = ros::Time::now();
+        time_initialized = true;
+        time_diff = time_diff + data.time;
+    }
+    // auto stamp = ros::Time::now();
+    auto stamp = time_initial + ros::Duration(data.time - time_diff);
+    // auto stamp_now = ros::Time::now();
+    // std::cout<< "time_initial: " << time_initial.toSec() << "data.time: " << data.time << "time_diff: " << time_diff << std::endl;
+    // std::cout << std::fixed << std::setprecision(6) <<"Time now: " << stamp_now.toSec() << ", time imu: "<< stamp.toSec() << std::endl;
 
     double degree_to_radian = M_PI / 180.0;
     double g_to_m_ss = 9.80665;
@@ -84,6 +96,9 @@ void MiniAHRSNodelet::IMUDataCallback(const mini_ahrs_driver::AHRSOrientationDat
 void MiniAHRSNodelet::onInit()
 {
     connected_ = false;
+    
+    time_initialized = false;
+    time_diff = 0.02;
 
     ros::NodeHandle& private_node_handle = getMTPrivateNodeHandle();
     callback_counter_ = 0;
