@@ -9,13 +9,15 @@ find_package(catkin REQUIRED COMPONENTS
     tf2
     nodelet
     tf2_ros
+    tf2_geometry_msgs
+    serial
 )
 
 catkin_package(
   INCLUDE_DIRS include modules/mini_ahrs_driver/include
   LIBRARIES mini_ahrs_ros mini_ahrs_driver
-  CATKIN_DEPENDS serial roscpp nodelet
-  #DEPENDS system_lib
+  CATKIN_DEPENDS roscpp nodelet tf2 tf2_ros tf2_geometry_msgs serial
+  # DEPENDS system_lib
 )
 
 add_subdirectory(modules/mini_ahrs_driver)
